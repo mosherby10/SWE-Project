@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Browse Games</title>
+    <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+</head>
+<body>
+<div class="container my-5">
+    <h2>Browse Games</h2>
+    <div class="row">
+        {% for game in games %}
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <img src="{{ url_for('static', filename=game.image) }}" class="card-img-top" alt="{{ game.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ game.title }}</h5>
+                    <p>${{ game.price }}</p>
+                    <a href="{{ url_for('add_to_cart', game_id=game.id) }}" class="btn btn-primary">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a href="{{ url_for('cart') }}" class="btn btn-success mt-3">Go to Cart</a>
+</div>
+</body>
+</html>
