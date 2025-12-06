@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gamer Profile - Cyborg</title>
+    <link rel="stylesheet" href="https://templatemo.com/templates/579_cyborg_gaming/assets/css/templatemo-cyborg-gaming.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <ul class="nav">
+                        <li><a href="{{ url_for('profile') }}" class="active">Profile</a></li>
+                        <li><a href="{{ url_for('library') }}">Library</a></li>
+                        <li><a href="{{ url_for('notifications') }}">Notifications</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-content">
+
+                <div class="row profile-header-area">
+                    <div class="col-lg-12">
+                        <div class="heading-section">
+                            <h4>My **Gamer Profile**</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-12 text-center">
+                        {% if user[4] %}
+                            <img src="{{ url_for('static', filename='uploads/' + user[4]) }}" class="avatar" alt="User Avatar">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='uploads/default.png') }}" class="avatar" alt="Default Avatar">
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-9 col-sm-12 profile-info">
+                        <p><strong>Username:</strong> {{ user[0] }}</p>
+                        <p><strong>Name:</strong> {{ user[1] }}</p>
+                        <p><strong>Country:</strong> {{ user[2] }}</p>
+                    </div>
+                </div>
+
+                <div class="gaming-section">
+                    <h4>**Bio**</h4>
+                    <p class="mt-3">{{ user[3] }}</p>
+                    <div class="text-center mt-4">
+                        <a href="{{ url_for('edit_profile') }}" class="main-button">Edit Profile</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

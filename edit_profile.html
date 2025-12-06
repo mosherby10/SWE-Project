@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile - Cyborg</title>
+    <link rel="stylesheet" href="https://templatemo.com/templates/579_cyborg_gaming/assets/css/templatemo-cyborg-gaming.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <ul class="nav">
+                        <li><a href="{{ url_for('profile') }}" class="active">Profile</a></li>
+                        <li><a href="{{ url_for('library') }}">Library</a></li>
+                        <li><a href="{{ url_for('notifications') }}">Notifications</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-content">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="heading-section">
+                            <h4>**Edit** Profile</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gaming-section">
+                    <form method="POST" enctype="multipart/form-data">
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Username:</label>
+                            <input type="text" name="username" value="{{ user[0] }}" class="form-control" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Name:</label>
+                            <input type="text" name="name" value="{{ user[1] }}" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Country:</label>
+                            <input type="text" name="country" value="{{ user[2] }}" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Bio:</label>
+                            <textarea name="bio" class="form-control">{{ user[3] }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Avatar:</label>
+                            <input type="file" name="avatar" class="form-control">
+                            <small class="text-muted">Current: {{ user[4] }}</small>
+                        </div>
+
+                        <button type="submit" class="main-button">Save Changes</button>
+                        <a href="{{ url_for('profile') }}" class="secondary-button">Cancel</a>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

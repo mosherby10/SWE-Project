@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notifications - Cyborg</title>
+    <link rel="stylesheet" href="https://templatemo.com/templates/579_cyborg_gaming/assets/css/templatemo-cyborg-gaming.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <ul class="nav">
+                        <li><a href="{{ url_for('profile') }}">Profile</a></li>
+                        <li><a href="{{ url_for('library') }}">Library</a></li>
+                        <li><a href="{{ url_for('notifications') }}" class="active">Notifications</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-content">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="heading-section">
+                            <h4>Your **Notifications**</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gaming-section">
+                    <form method="POST" action="{{ url_for('mark_all_read') }}" class="mb-4">
+                        <button type="submit" class="main-button">Mark All Read</button>
+                    </form>
+
+                    {% for n in notes %}
+                        <div class="notification-item {% if n[2] == 0 %}unread{% else %}read{% endif %}">
+                            <p class="mb-1">{{ n[1] }}</p>
+                            <small class="text-muted">{{ n[3] }}</small><br>
+                            {% if n[2] == 0 %}
+                                <a href="{{ url_for('read_notification', n_id=n[0]) }}" class="secondary-button mt-2">Mark as read</a>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>
