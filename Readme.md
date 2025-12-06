@@ -1,3 +1,3 @@
 # OGS
 ---
-## An online store  
+## An online store

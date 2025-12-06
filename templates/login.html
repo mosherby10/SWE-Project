@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/templatemo-cyborg-gaming.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animate.css') }}">
-    
+
     <style>
         body {
             background-color: #1e1e1e;
@@ -35,8 +35,8 @@
             max-width: 520px;
             margin: 0 auto;
         }
-        .form-group { 
-            margin-bottom: 20px; 
+        .form-group {
+            margin-bottom: 20px;
         }
         .form-group label {
             color: #fff;
@@ -79,25 +79,25 @@
             width: 100%;
             cursor: pointer;
         }
-        .main-button button:hover { 
-            background-color: #fff; 
-            color: #e75e8d; 
+        .main-button button:hover {
+            background-color: #fff;
+            color: #e75e8d;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(231, 94, 141, 0.4);
         }
-        .auth-header { 
-            color: #fff; 
-            margin-bottom: 30px; 
-            text-align: center; 
+        .auth-header {
+            color: #fff;
+            margin-bottom: 30px;
+            text-align: center;
             font-size: 28px;
             font-weight: 600;
         }
-        .auth-header span { 
-            color: #e75e8d; 
+        .auth-header span {
+            color: #e75e8d;
         }
         .auth-link {
-            text-align: center; 
-            margin-top: 30px; 
+            text-align: center;
+            margin-top: 30px;
             color: #fff;
         }
         .auth-link p {
@@ -220,7 +220,7 @@
                         <li><a href="browse.html">Browse</a></li>
                         <li><a href="{{ url_for('login') }}" class="active">Login</a></li>
                         <li><a href="{{ url_for('register') }}">Register</a></li>
-                    </ul>   
+                    </ul>
                     <a class='menu-trigger'>
                         <span>Menu</span>
                     </a>
@@ -239,7 +239,7 @@
             <div class="col-lg-6 col-md-7 col-sm-9">
                 <div class="auth-container">
                     <h2 class="auth-header">User <span>Login</span></h2>
-                    
+
                     <!-- Flash Messages -->
                     {% with messages = get_flashed_messages(with_categories=true) %}
                         {% if messages %}
@@ -250,9 +250,9 @@
                             {% endfor %}
                         {% endif %}
                     {% endwith %}
-                    
+
                     <form id="loginForm" action="{{ url_for('login') }}" method="POST">
-                        
+
                         <div class="form-group">
                             <label>Email Address</label>
                             <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
@@ -282,7 +282,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Forgot Password Modal -->
   <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -309,7 +309,7 @@
       </div>
     </div>
   </div>
-  
+
   <footer>
     <div class="container">
       <div class="row">
@@ -333,23 +333,23 @@
   <script>
     function handleResetPassword() {
       const email = document.querySelector('#resetPasswordForm input[name="reset_email"]').value;
-      
+
       if (!email) {
         alert('Please enter your email address');
         return;
       }
-      
+
       // Here you would typically send a request to your backend
       // For now, we'll just show a success message
       alert('Password reset link has been sent to ' + email);
-      
+
       // Close the modal
       $('#forgotPasswordModal').modal('hide');
-      
+
       // Reset the form
       document.getElementById('resetPasswordForm').reset();
     }
-    
+
     // Handle form submission on Enter key
     document.getElementById('resetPasswordForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -358,4 +358,4 @@
   </script>
 
   </body>
-</html> 
+</html>

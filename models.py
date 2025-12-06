@@ -76,4 +76,4 @@ class ActivityLog(db.Model):
     target_id = db.Column(db.Integer)
     details = db.Column(db.Text)
     date = db.Column(db.DateTime, default=datetime.utcnow)
- 
+

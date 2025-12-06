@@ -27,10 +27,10 @@ def login():
     if request.method == "POST":
         email = request.form.get('email')
         password = request.form.get('password')
-        
+
         # Check if user exists
         user = User.query.filter_by(email=email).first()
-        
+
         if user and check_password_hash(user.password, password):
             # Login successful
             session['user_id'] = user.id
@@ -42,7 +42,7 @@ def login():
             # Invalid credentials
             flash('Invalid email or password. Please try again.', 'error')
             return render_template("login.html")
-    
+
     return render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
@@ -52,29 +52,29 @@ def register():
         email = request.form.get('email')
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
-        
+
         # Validation
         if not username or not email or not password:
             flash('All fields are required.', 'error')
             return render_template("register.html")
-        
+
         # Check if passwords match
         if password != confirm_password:
             flash('Passwords do not match.', 'error')
             return render_template("register.html")
-        
+
         # Check if email already exists
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
             flash('Email already registered. Please login instead.', 'error')
             return render_template("register.html")
-        
+
         # Check if username already exists
         existing_username = User.query.filter_by(username=username).first()
         if existing_username:
             flash('Username already taken. Please choose another.', 'error')
             return render_template("register.html")
-        
+
         # Create new user
         hashed_password = generate_password_hash(password)
         new_user = User(
@@ -82,7 +82,7 @@ def register():
             email=email,
             password=hashed_password
         )
-        
+
         try:
             db.session.add(new_user)
             db.session.commit()
@@ -99,10 +99,10 @@ def register():
 def forgot_password():
     if request.method == "POST":
         email = request.form.get('email')
-        
+
         # Check if email exists in database
         user = User.query.filter_by(email=email).first()
-        
+
         if user:
             # Here you would typically:
             # 1. Generate a reset token
@@ -115,7 +115,7 @@ def forgot_password():
             # Don't reveal if email exists for security
             flash('If an account exists with this email, a password reset link has been sent.', 'success')
             return render_template("forgot_password.html", success=True)
-    
+
     return render_template("forgot_password.html")
 
 @app.route("/logout")
@@ -126,4 +126,4 @@ def logout():
 
 if __name__ == "__main__":
     app.run(debug=True)
- 
+
