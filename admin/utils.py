@@ -2,6 +2,8 @@ from functools import wraps
 from flask import session, redirect, url_for, flash
 from models import db, ActivityLog
 
+
+
 def admin_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
