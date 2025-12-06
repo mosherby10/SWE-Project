@@ -1725,11 +1725,36 @@ body {
     padding-right: 5px;
     padding-left: 5px;
   }
-  .header-area .main-nav .logo {
-    margin-right: 30px;
-    border-right: none;
-  }
+.header-area .main-nav .logo {
+  border-right: none; /* لو مش عايز الخط */
+  flex-basis: auto;
+  margin-right: 2%;
+}
+
+.header-area .main-nav .logo span {
+  white-space: nowrap; /* يخلي Game-verse في سطر واحد */
+}
   .gaming-library .item ul li {
     width: 16%;
   }
+}
+
+
+
+.header-area .main-nav .logo-text {
+  display: inline-block;
+  font-size: 28px;      /* نفس حجم اللوجو تقريبا */
+  font-weight: 700;      /* Bold */
+  color: #fff;
+  white-space: nowrap;   /* يخلي النص في سطر واحد */
+}
+
+.header-area .main-nav .logo {
+  border-right: 1px solid #27292a;
+  flex-basis: 25%;
+  margin-right: 5%;
+  transition: all 0.3s ease 0s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

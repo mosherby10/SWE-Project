@@ -1,5 +1,6 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from decimal import Decimal
 
 db = SQLAlchemy()
 
@@ -9,11 +10,14 @@ db = SQLAlchemy()
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100))
-    email = db.Column(db.String(255), unique=True)
-    password = db.Column(db.String(255))
+    username = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(255), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
     account_status = db.Column(db.String(20), default="Active")
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    balance = db.Column(db.Numeric(10, 2), default=Decimal("100.00"))
+
+    orders = db.relationship("Order", backref="user", lazy=True)
 
 
 # -------------------------
@@ -22,9 +26,9 @@ class User(db.Model):
 class Admin(db.Model):
     __tablename__ = "admins"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    email = db.Column(db.String(255), unique=True)
-    password = db.Column(db.String(255))
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(255), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
 
 
 # -------------------------
@@ -38,7 +42,7 @@ class Game(db.Model):
     price = db.Column(db.Numeric(10, 2))
     rating = db.Column(db.Float, default=0.0)
     downloads = db.Column(db.Integer, default=0)
-    image = db.Column(db.String(255))  # path to image in static/assets/images
+    image = db.Column(db.String(255))
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
 
 
@@ -50,12 +54,10 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     order_date = db.Column(db.DateTime, default=datetime.utcnow)
-    total_price = db.Column(db.Numeric(10,2))
+    total_price = db.Column(db.Numeric(10, 2))
     order_status = db.Column(db.String(20), default="Processing")
 
-    # Relationships
-    user = db.relationship("User", backref="orders")
-    items = db.relationship("OrderItem", backref="order", cascade="all, delete-orphan")
+    items = db.relationship("OrderItem", backref="order", cascade="all, delete-orphan", lazy=True)
 
 
 class OrderItem(db.Model):
@@ -63,8 +65,8 @@ class OrderItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, db.ForeignKey("orders.id"), nullable=False)
     game_id = db.Column(db.Integer, db.ForeignKey("games.id"), nullable=False)
-    quantity = db.Column(db.Integer)
-    price_at_purchase = db.Column(db.Numeric(10,2))
+    quantity = db.Column(db.Integer, nullable=False)
+    price_at_purchase = db.Column(db.Numeric(10, 2))
 
     game = db.relationship("Game")
 
