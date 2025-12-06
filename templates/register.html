@@ -123,7 +123,7 @@
             color: #e75e8d !important;
         }
     </style>
-
+                
   </head>
 
 <body>
@@ -150,8 +150,8 @@
                     <ul class="nav">
                         <li><a href="{{ url_for('home') }}">Home</a></li>
                         <li><a href="browse.html">Browse</a></li>
-                        <li><a href="{{ url_for('login') }}">Login</a></li>
-                        <li><a href="{{ url_for('register') }}" class="active">Register</a></li>
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="register.html" class="active">Register</a></li>
                     </ul>   
                     <a class='menu-trigger'>
                         <span>Menu</span>
@@ -172,18 +172,7 @@
                 <div class="auth-container">
                     <h2 class="auth-header">Create <span>Account</span></h2>
                     
-                    <!-- Flash Messages -->
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                        {% if messages %}
-                            {% for category, message in messages %}
-                                <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }}" style="background-color: {% if category == 'error' %}rgba(220, 53, 69, 0.1){% else %}rgba(40, 167, 69, 0.1){% endif %}; border: 1px solid {% if category == 'error' %}#dc3545{% else %}#28a745{% endif %}; border-radius: 10px; padding: 12px; margin-bottom: 20px; color: {% if category == 'error' %}#dc3545{% else %}#28a745{% endif %}; text-align: center; font-size: 14px;">
-                                    {{ message }}
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
-                    
-                    <form id="registerForm" action="{{ url_for('register') }}" method="POST">
+                    <form id="registerForm" action="register.html" method="POST">
                         
                         <div class="form-group">
                             <label>Username</label>
@@ -211,7 +200,7 @@
                     </form>
 
                     <div class="auth-link">
-                        <p>Already have an account? <a href="{{ url_for('login') }}">Login Here</a></p>
+                        <p>Already have an account? <a href="login.html">Login Here</a></p>
                     </div>
 
                 </div>
@@ -226,7 +215,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <p>Copyright © 2025 Cyborg Gaming. All rights reserved.</p>
+          <p>Copyright © 2025 GameVerse All rights reserved.</p>
         </div>
       </div>
     </div>
