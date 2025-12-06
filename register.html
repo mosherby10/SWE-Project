@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <title>Cyborg - User Registration</title>
+
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-cyborg-gaming.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    
+    <style>
+        .form-group { margin-bottom: 20px; }
+        .form-control {
+            background-color: #1f2122;
+            border: 1px solid #27292a;
+            color: #fff;
+            border-radius: 23px;
+            padding: 10px 20px;
+        }
+        .form-control:focus {
+            background-color: #1f2122;
+            border-color: #e75e8d;
+            box-shadow: none;
+            color: #fff;
+        }
+        .main-button button {
+            font-size: 14px;
+            color: #fff;
+            background-color: #e75e8d;
+            padding: 12px 30px;
+            display: inline-block;
+            border-radius: 25px;
+            font-weight: 400;
+            text-transform: capitalize;
+            letter-spacing: 0.5px;
+            transition: all .3s;
+            border: none;
+            width: 100%;
+        }
+        .main-button button:hover { background-color: #fff; color: #e75e8d; }
+        .auth-header { color: #fff; margin-bottom: 30px; text-align: center; }
+        .auth-header span { color: #e75e8d; }
+    </style>
+
+  </head>
+
+<body>
+
+  <header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <a href="index.html" class="logo">
+                        <img src="assets/images/logo.png" alt="">
+                    </a>
+                    
+                    <ul class="nav">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="browse.html">Browse</a></li>
+                        <li><a href="register.html" class="active">Register</a></li>
+                    </ul>   
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </div>
+  </header>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="page-content">
+
+          <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="item">
+                    <h2 class="auth-header">Create <span>Account</span></h2>
+                    
+                    <form id="registerForm" action="/register" method="POST">
+                        
+                        <div class="form-group">
+                            <label style="color:#666">Username</label>
+                            <input type="text" class="form-control" name="username" placeholder="Choose a username" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="color:#666">Email Address</label>
+                            <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="color:#666">Password</label>
+                            <input type="password" class="form-control" name="password" placeholder="Create a password" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="color:#666">Confirm Password</label>
+                            <input type="password" class="form-control" name="confirm_password" placeholder="Confirm your password" required>
+                        </div>
+
+                        <div class="main-button">
+                            <button type="submit">Sign Up Now</button>
+                        </div>
+                    </form>
+
+                    <div style="text-align: center; margin-top: 20px; color: #fff;">
+                        <p>Already have an account? <a href="login.html" style="color: #e75e8d;">Login Here</a></p>
+                    </div>
+
+                </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <p>Copyright © 2025 Cyborg Gaming. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets/js/custom.js"></script>
+
+  </body>
+</html>
