@@ -1,0 +1,68 @@
+
+
+
+
+
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="mb-4"><i class="bi bi-speedometer2"></i> Dashboard</h1>
+
+<div class="row g-4">
+
+    <div class="col-md-4">
+        <div class="card shadow-lg p-4 text-center">
+            <h1><i class="bi bi-people"></i></h1>
+            <h2>{{ users_count }}</h2>
+            <p class="text-secondary">Users</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-lg p-4 text-center">
+            <h1><i class="bi bi-controller"></i></h1>
+            <h2>{{ games_count }}</h2>
+            <p class="text-secondary">Games</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-lg p-4 text-center">
+            <h1><i class="bi bi-cart-check"></i></h1>
+            <h2>{{ orders_count }}</h2>
+            <p class="text-secondary">Orders</p>
+        </div>
+    </div>
+
+</div>
+
+<h3 class="mt-5">Recent Orders</h3>
+
+<table class="table table-hover mt-3 shadow">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for o in recent_orders %}
+        <tr>
+            <td>{{ o.id }}</td>
+            <td>{{ o.user.username if o.user else 'User #' + o.user_id|string }}</td>
+            <td>{{ o.order_date.strftime('%Y-%m-%d %H:%M') if o.order_date else 'N/A' }}</td>
+            <td>${{ "%.2f"|format(o.total_price) }}</td>
+            <td>
+                <a href="{{ url_for('admin_order_detail', order_id=o.id) }}" class="btn btn-sm btn-info">
+                    <i class="bi bi-eye"></i> View
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
