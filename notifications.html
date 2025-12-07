@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications - Game-verse</title>
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/css/templatemo-cyborg-gaming.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/fontawesome.css') }}">
+  <style>
+    body {
+      background-color: #1f2122;
+      color: #fff;
+      min-height: 100vh;
+    }
+    .main-nav {
+      display: flex;
+      align-items: center;
+      padding: 15px 0;
+      background-color: #27292a;
+      overflow: hidden;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .main-nav .logo-text {
+      display: inline-block;
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .main-nav .logo {
+      border-right: 1px solid #27292a;
+      flex-basis: 25%;
+      margin-right: 5%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease 0s;
+    }
+    .main-nav form.search-form {
+      flex-grow: 1;
+      max-width: 350px;
+      margin-left: 20px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .main-nav form.search-form input {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+      background: #27292a;
+      color: white;
+      width: 100%;
+    }
+    .main-nav .right-elements {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-left: auto;
+    }
+    .header-area {
+      background-color: #27292a;
+      padding: 0;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #3a3d3e;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .notifications-section {
+      background-color: #27292a;
+      border: 2px solid #3a3d3e;
+      border-radius: 15px;
+      padding: 40px;
+    }
+    .notification-item {
+      background-color: #1f2122;
+      border: 2px solid #3a3d3e;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+    }
+    .notification-item:hover {
+      border-color: #e75e8d;
+    }
+    .notification-item.unread {
+      border-left: 4px solid #e75e8d;
+      background-color: #27292a;
+    }
+    .notification-item.read {
+      opacity: 0.7;
+    }
+    .notification-message {
+      color: #fff;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    .notification-date {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    .notification-actions {
+      margin-top: 15px;
+    }
+    .mark-read-btn {
+      background-color: #e75e8d;
+      color: #fff;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .mark-read-btn:hover {
+      background-color: #fff;
+      color: #e75e8d;
+    }
+    .mark-all-read-btn {
+      background-color: #e75e8d;
+      color: #fff;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .mark-all-read-btn:hover {
+      background-color: #fff;
+      color: #e75e8d;
+    }
+    .empty-notifications {
+      text-align: center;
+      padding: 60px 20px;
+      color: #aaa;
+    }
+    .empty-notifications i {
+      font-size: 80px;
+      color: #3a3d3e;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header Area -->
+<header class="header-area header-sticky">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <nav class="main-nav">
+          <!-- Logo -->
+          <a href="{{ url_for('home') }}" class="logo">
+            <span class="logo-text">Game-verse</span>
+          </a>
+
+          <!-- Search -->
+          <form action="{{ url_for('browse') }}" method="get" class="search-form">
+              <button type="submit" style="background:none; border:none; cursor:pointer;">
+                <i class="fa fa-search" style="font-size:18px; color:white;"></i>
+              </button>
+              <input type="text" name="q" placeholder="Search games...">
+          </form>
+
+          <!-- Right Side -->
+          <div class="right-elements">
+            <!-- Cart -->
+            <a href="{{ url_for('cart') }}" style="color:white; font-size:20px;">
+              <i class="fa fa-shopping-cart"></i>
+            </a>
+
+            {% if session.get('is_admin') %}
+            <!-- Admin Logout -->
+            <a href="{{ url_for('admin_logout') }}" class="btn btn-outline-danger btn-sm" style="margin-left: 10px;">
+              <i class="fa fa-sign-out"></i> Logout
+            </a>
+            {% elif session.get('user_id') %}
+            <!-- Notification -->
+            <a href="{{ url_for('notifications') }}" style="color:white; font-size:20px; position: relative;">
+              <i class="fa fa-bell"></i>
+            </a>
+
+            <!-- Profile Dropdown -->
+            <div class="dropdown">
+              <a class="d-flex align-items-center dropdown-toggle text-white" href="#" id="userMenu" data-bs-toggle="dropdown">
+                <img src="{{ url_for('static', filename='images/profile.png') }}" 
+                     style="width:32px; height:32px; border-radius:50%; margin-right:6px; background-color: #fff; padding: 2px;">
+                {{ session.get('username') }}
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="{{ url_for('profile') }}">Profile</a></li>
+              </ul>
+            </div>
+            
+            <!-- User Logout Button -->
+            <a href="{{ url_for('logout') }}" class="btn btn-outline-danger btn-sm" style="margin-left: 10px;">
+              <i class="fa fa-sign-out"></i> Logout
+            </a>
+
+            {% else %}
+            <!-- Guest Buttons -->
+            <a class="btn btn-outline-light" href="{{ url_for('login') }}">Login</a>
+            <a class="btn btn-primary" href="{{ url_for('register') }}">Signup</a>
+            {% endif %}
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container mt-5 mb-4" style="padding-top: 30px;">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}" style="background-color: #1f2122; border: 2px solid {% if category == 'error' or category == 'danger' %}#dc3545{% else %}#28a745{% endif %}; color: {% if category == 'error' or category == 'danger' %}#f8d7da{% else %}#d4edda{% endif %}; border-radius: 10px; padding: 12px 20px; margin-bottom: 20px;">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <div class="notifications-section">
+    <h2 style="color: #fff; margin-bottom: 30px;">Your Notifications</h2>
+
+    {% if notes %}
+    <form method="POST" action="{{ url_for('mark_all_read') }}">
+      <button type="submit" class="mark-all-read-btn">
+        <i class="fa fa-check-double"></i> Mark All as Read
+      </button>
+    </form>
+
+    {% for note in notes %}
+    <div class="notification-item {% if not note.is_read %}unread{% else %}read{% endif %}">
+      <div class="notification-message">{{ note.message }}</div>
+      <div class="notification-date">
+        <i class="fa fa-clock"></i> {{ note.created_at.strftime('%B %d, %Y at %I:%M %p') if note.created_at else 'N/A' }}
+      </div>
+      {% if not note.is_read %}
+      <div class="notification-actions">
+        <a href="{{ url_for('read_notification', n_id=note.id) }}" class="mark-read-btn">
+          <i class="fa fa-check"></i> Mark as Read
+        </a>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="empty-notifications">
+      <i class="fa fa-bell-slash"></i>
+      <h3>No notifications</h3>
+      <p>You're all caught up! New notifications will appear here.</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>

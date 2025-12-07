@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Edit review</h2>
+
+<form method="post" style="max-width: 500px;">
+  <div class="mb-3">
+    <label class="form-label">Rating (1–5)</label>
+    <input class="form-control" type="number" name="rating" min="1" max="5" value="{{ review.rating }}" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Review</label>
+    <textarea class="form-control" name="text" rows="4" required>{{ review.text }}</textarea>
+  </div>
+  <button class="btn btn-primary" type="submit">Save changes</button>
+  <a class="btn btn-secondary" href="{{ url_for('game_details', game_id=review.game_id) }}">Cancel</a>
+</form>
+{% endblock %}
