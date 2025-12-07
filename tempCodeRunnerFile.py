@@ -4,7 +4,6 @@ from werkzeug.utils import secure_filename
 from models import db, User, Game, Order, OrderItem, Admin, PasswordResetToken, Review, ActivityLog, Notification
 from decimal import Decimal
 from datetime import datetime, timedelta
-from sqlalchemy import func
 import random
 import os
 
@@ -72,91 +71,45 @@ def home():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        email = request.form.get("email", "").strip().lower()
-        password = request.form.get("password", "").strip()
-
-        if not email or not password:
-            flash("Please enter both email and password!", "error")
-            return render_template("login.html")
+        email = request.form["email"]
+        password = request.form["password"]
 
         # Check if admin login (@admin.com)
         if email.endswith("@admin.com"):
             admin = Admin.query.filter_by(email=email).first()
-            if admin:
-                # Check if password is hashed or plain text (for backward compatibility)
-                if admin.password.startswith("$2b$") or admin.password.startswith("$2a$") or admin.password.startswith("$pbkdf2"):
-                    # Password is hashed
-                    if check_password_hash(admin.password, password):
-                        session["admin_id"] = admin.id
-                        session["admin_name"] = admin.name
-                        session["is_admin"] = True
-                        flash("Admin login successful!", "success")
-                        return redirect(url_for("admin_dashboard"))
-                else:
-                    # Password might be plain text (legacy data)
-                    if admin.password == password:
-                        # Re-hash the password for security
-                        admin.password = generate_password_hash(password)
-                        db.session.commit()
-                        session["admin_id"] = admin.id
-                        session["admin_name"] = admin.name
-                        session["is_admin"] = True
-                        flash("Admin login successful!", "success")
-                        return redirect(url_for("admin_dashboard"))
+            if admin and check_password_hash(admin.password, password):
+                session["admin_id"] = admin.id
+                session["admin_name"] = admin.name
+                session["is_admin"] = True
+                flash("Admin login successful!", "success")
+                return redirect(url_for("admin_dashboard"))
             flash("Invalid admin credentials!", "error")
             return render_template("login.html")
 
-        # Regular user login - use case-insensitive email search
-        user = User.query.filter(func.lower(User.email) == email).first()
+        # Regular user login
+        user = User.query.filter_by(email=email).first()
 
-        if user:
-            # Check if password is hashed or plain text (for backward compatibility)
-            if user.password.startswith("$2b$") or user.password.startswith("$2a$") or user.password.startswith("$pbkdf2"):
-                # Password is hashed
-                if check_password_hash(user.password, password):
-                    session["user_id"] = user.id
-                    session["username"] = user.username
-                    session["is_admin"] = False
-                    
-                    # Create welcome notification
-                    welcome_notification = Notification(
-                        user_id=user.id,
-                        message=f"Welcome back, {user.username}! We're glad to have you here.",
-                        is_read=False
-                    )
-                    db.session.add(welcome_notification)
-                    db.session.commit()
-                    
-                    flash("Login successful!", "success")
-                    return redirect(url_for("home"))
-            else:
-                # Password might be plain text (legacy data)
-                if user.password == password:
-                    # Re-hash the password for security
-                    user.password = generate_password_hash(password)
-                    db.session.commit()
-                    session["user_id"] = user.id
-                    session["username"] = user.username
-                    session["is_admin"] = False
-                    
-                    # Create welcome notification
-                    welcome_notification = Notification(
-                        user_id=user.id,
-                        message=f"Welcome back, {user.username}! We're glad to have you here.",
-                        is_read=False
-                    )
-                    db.session.add(welcome_notification)
-                    db.session.commit()
-                    
-                    flash("Login successful!", "success")
-                    return redirect(url_for("home"))
+        if user and check_password_hash(user.password, password):
+            session["user_id"] = user.id
+            session["username"] = user.username
+            session["is_admin"] = False
+            
+            # Create welcome notification
+            welcome_notification = Notification(
+                user_id=user.id,
+                message=f"Welcome back, {user.username}! We're glad to have you here.",
+                is_read=False
+            )
+            db.session.add(welcome_notification)
+            db.session.commit()
+            
+            flash("Login successful!", "success")
+            return redirect(url_for("home"))
 
-        flash("Invalid credentials! Please check your email and password.", "error")
+        flash("Invalid credentials!", "error")
         return render_template("login.html")
 
     return render_template("login.html")
-
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
